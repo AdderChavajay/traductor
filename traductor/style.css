@@ -1,0 +1,70 @@
+header{
+    width: 100%;
+    height: auto;
+    background-color: brown;
+}
+
+textarea{
+    resize: none;
+    margin: auto;
+    width: 100%;
+}
+textarea:hover{
+    background-color: #eee;
+}
+
+header .navegador{
+    width: 90%;
+    max-width: 1000px;
+    margin: 0% auto;
+}
+
+header .navegador h1{
+    color: #eee;
+    padding: 5px;
+}
+
+.particles-js{
+    padding: 2%;
+    width: 90%;
+    max-width: 1000px;
+    margin: 0% auto;
+    height: auto;
+    background-image: url(img/claro.jpg);
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: relative;
+    background-repeat: no-repeat;
+}
+
+section{
+    width: 90%;
+    margin: 0 auto;
+}
+
+.Espaniol, .Kiche{
+    padding: 10px;
+    border: 5px;
+}
+
+.imagen{
+    margin: 0 auto;
+    padding: 10px;
+    max-width: 200px;
+}
+img{
+    width: 100%;
+    border-radius: 5px;    
+}
+
+.grafica{
+    width: 100%;
+    height: auto;
+}
+
+.chart-container{
+    position: relative; 
+    width: 100%;
+    max-width: 500px;
+    margin: 0px auto;
+}

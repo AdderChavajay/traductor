@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="js/jquery.js"> </script>
+</head>
+<body>
+    <header>
+        <nav class="navegador">
+        <h1>Traductor</h1>
+        </nav>
+    </header>
+    <main class="particles-js" id="app">
+        <section>
+                <form action="" class="row form-inline justify-content-center ">
+
+                <div class="Espaniol col-md-6" >
+                    <label for="Espaniol">Español</label>
+                    <textarea name="" id="Espaniol"   class="form-control col-sm-12 col-md-12" rows="5" cols="65" placeholder="Escriba ..."></textarea>
+
+                </div>
+                
+                <div class="Kiche  col-md-6 ">
+                    <label for="Kiche">Kiche</label>
+                    <textarea name="" id="kiche"  class="form-control col-sm-12 col-md-12 col-md-12" rows="5" cols="65" placeholder="Resultados ..."></textarea>
+                        
+                </div> 
+                
+               
+                </form>
+                <div class="imagen " v-if="url">    
+                    <img :src="`http://localhost:3000/image/${url}`" class="img-fluid " alt="">
+                </div>
+                <br>
+
+                <div class="boton">
+                
+                    <form action="" class=" ">
+                    
+                        <button class="btn btn-primary "> Traducir </button>       
+                   
+                    </form>
+                </div>      
+        </section>
+        <hr>
+        <section class="grafica">
+                        
+            <div class="chart-container " >
+                <canvas id="myChart"></canvas>
+            </div>   
+        </section>
+
+    </main>
+   
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="js/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    let app = new Vue({
+        el: "#app",
+        data () {
+            return {
+                url: ''
+            }
+        },
+        mounted (){
+            this.getWord(1)
+        },
+        methods: {
+            async getWord (world_id) {
+                try {
+                    const url = `http://localhost:3000/?wordid=${world_id}`
+                    const result = await axios.get(url)
+                    this.url = result.data[0].url_imge
+                    console.log(result)
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>
