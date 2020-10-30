@@ -19,17 +19,43 @@
         <section>
                 <form action="" class="row form-inline justify-content-center ">
 
-                <div class="Espaniol col-md-6" >
-                    <label for="Espaniol">Español</label>
-                    <textarea name="" id="Espaniol"   class="form-control col-sm-12 col-md-12" rows="5" cols="65" placeholder="Escriba ..."></textarea>
-
+                <div class="row">
+                    <div class="col-md-4">
+                        <select name="" id="" v-model="languajeFrom">
+                            <option value="1">Español</option>
+                            <option value="2">Ingles</option>
+                            <option value="3">Quiche</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary "> cambio </button>
+                    </div>
+                    <div class="col-md-4">
+                        <!-- <button class="btn btn-secondary" >Ingles</button> -->
+                        <select name="" id="" v-model="languajeTo">
+                            <option value="1">Español</option>
+                            <option value="2">Ingles</option>
+                            <option value="3">Quiche</option>
+                        </select>
+                    </div>
                 </div>
-                
-                <div class="Kiche  col-md-6 ">
-                    <label for="Kiche">Kiche</label>
-                    <textarea name="" id="kiche"  class="form-control col-sm-12 col-md-12 col-md-12" rows="5" cols="65" placeholder="Resultados ..."></textarea>
-                        
-                </div> 
+                <div class="row">
+                    <div class="Espaniol col-md-6" >
+                        <label for="Espaniol" class="">Español</label>
+                        <textarea name="" id="Espaniol" v-model="wordFrom" @keypress.enter="getWord(wordFrom)"
+                        class="form-control col-sm-12 col-md-12" rows="5" cols="65" 
+                        placeholder="Escriba ..."></textarea>
+    
+                    </div>
+                    
+                    <div class="Kiche  col-md-6 ">
+                        <label for="kiche">Quiche</label>
+                        <textarea name="" id="kiche" v-model="wordTo" readonly
+                        class="form-control col-sm-12 col-md-12 col-md-12" rows="5" cols="65" 
+                        placeholder="Resultados ..."></textarea>
+                            
+                    </div> 
+                </div>
                 
                
                 </form>
@@ -66,19 +92,27 @@
         el: "#app",
         data () {
             return {
-                url: ''
+                url: '',
+                wordFrom: '',
+                wordTo: '',
+                languajeFrom: '1',
+                languajeTo: '3'
             }
         },
         mounted (){
-            this.getWord(1)
+          //  this.getWord("buenas noches")
         },
         methods: {
-            async getWord (world_id) {
+            async getWord (word) {
                 try {
-                    const url = `http://localhost:3000/?wordid=${world_id}`
-                    const result = await axios.get(url)
-                    this.url = result.data[0].url_imge
-                    console.log(result)
+                    const url = `http://localhost:3000/search/word`
+                    const { data } = await axios.post(url, {
+                        word
+                    })
+                    const element = data[0]
+                    this.url = element.url_imge
+                    this.wordTo = element.palabrak
+                    console.log(data)
                 } catch (error) {
                     console.error(error);
                 }
