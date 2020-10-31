@@ -1,0 +1,1 @@
+tiene que tene node js para poder ejecutarlo tanto como express y axios para tener al 100 la funcionalidad

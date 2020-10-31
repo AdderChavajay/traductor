@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>pagina principal</title>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
@@ -12,46 +12,48 @@
 <body>
     <header>
         <nav class="navegador">
-        <h1>Traductor</h1>
-        </nav>
+            <div id="" class="justify-content-center vienvenida">
+                <h4 class="">vienvenido</h4> 
+            </div>
+  
     </header>
+
+    <!-- principal traductor -->
     <main class="particles-js" id="app">
         <section>
                 <form action="" class="row form-inline justify-content-center ">
 
                 <div class="row">
-                    <div class="col-md-4">
-                        <select name="" id="" v-model="languajeFrom">
-                            <option value="1">Español</option>
-                            <option value="2">Ingles</option>
-                            <option value="3">Quiche</option>
+                    <div class="col-md-4 col-sm-4">
+                        <select name="" id="" class="form-control" v-model="languajeFrom">
+                            <option v-for="item in lenguajes" :value="item.id">{{ item.text }}</option>
                         </select>
                     </div>
-                    <div class="col-md-4">
-                        <button class="btn btn-primary "> cambio </button>
+                    <div class="col-md-4 col-sm-4">
+                        <button class="btn btn-primary " @click.prevent="switchLen"> cambio </button>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 col-sm-4">
                         <!-- <button class="btn btn-secondary" >Ingles</button> -->
-                        <select name="" id="" v-model="languajeTo">
-                            <option value="1">Español</option>
-                            <option value="2">Ingles</option>
-                            <option value="3">Quiche</option>
+                        <select name="" id="" v-model="languajeTo" class="form-control">
+                            <option v-for="item in lenguajes" :value="item.id">{{ item.text }}</option>
                         </select>
                     </div>
                 </div>
+
+
                 <div class="row">
                     <div class="Espaniol col-md-6" >
-                        <label for="Espaniol" class="">Español</label>
-                        <textarea name="" id="Espaniol" v-model="wordFrom" @keypress.enter="getWord(wordFrom)"
-                        class="form-control col-sm-12 col-md-12" rows="5" cols="65" 
+                        <label for="Espaniol" class="">{{ lenguajes[languajeFrom-1].text }} </label>
+                        <textarea name="" id="Espaniol" v-model="wordFrom" @keypress.enter.prevent="transletWord(wordFrom)"
+                        class="form-control col-sm-12 col-md-12" rows="5" cols="60" 
                         placeholder="Escriba ..."></textarea>
     
                     </div>
                     
                     <div class="Kiche  col-md-6 ">
-                        <label for="kiche">Quiche</label>
+                        <label for="kiche">{{ lenguajes[languajeTo-1].text }}</label>
                         <textarea name="" id="kiche" v-model="wordTo" readonly
-                        class="form-control col-sm-12 col-md-12 col-md-12" rows="5" cols="65" 
+                        class="form-control col-sm-12 col-md-12 col-md-12" rows="5" cols="60" 
                         placeholder="Resultados ..."></textarea>
                             
                     </div> 
@@ -64,14 +66,7 @@
                 </div>
                 <br>
 
-                <div class="boton">
-                
-                    <form action="" class=" ">
-                    
-                        <button class="btn btn-primary "> Traducir </button>       
                    
-                    </form>
-                </div>      
         </section>
         <hr>
         <section class="grafica">
@@ -87,6 +82,7 @@
 <script src="js/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 <script>
     let app = new Vue({
         el: "#app",
@@ -95,27 +91,67 @@
                 url: '',
                 wordFrom: '',
                 wordTo: '',
-                languajeFrom: '1',
-                languajeTo: '3'
+                languajeFrom: 1,
+                languajeTo: 3,
+                lenguajes: [
+                    { id: '1', text: 'Espanol' },
+                    { id: '2', text: 'Ingles' },
+                    { id: '3', text: 'Quiche' },
+                ]
             }
         },
         mounted (){
           //  this.getWord("buenas noches")
+          this.graficaEstadistica();
         },
         methods: {
-            async getWord (word) {
+            async graficaEstadistica(){
+                try{
+                    const url = "http://localhost:3000/grafica/datos"
+                    const {data} = await axios.get(url)                   
+                    const fila = data[0]
+                    const dataEstadisitaca = [fila.palabras, fila.frases, fila.no_encontrados]
+                    
+                    buildChar(dataEstadisitaca)
+
+                }catch(error){
+                    console.error("error catch");
+                    console.error(error);
+                }
+            },
+            async transletWord (word) {
+
+                this.url = ""
+                this.wordTo = ""
+                this.wordFrom = this.wordFrom.trim()
                 try {
-                    const url = `http://localhost:3000/search/word`
+                    const url = `http://localhost:3000/search/word/${this.languajeFrom}/${this.languajeTo}`
                     const { data } = await axios.post(url, {
                         word
                     })
+                    console.log("data :", data);
+                    if (!data.length) {
+                        return
+                    }
                     const element = data[0]
-                    this.url = element.url_imge
-                    this.wordTo = element.palabrak
-                    console.log(data)
+                    this.url = this.languajeFrom == 1 ? element.url_imge : this.url
+                    this.url = this.languajeFrom == 2 ? element.url_imgi : this.url
+                    this.url = this.languajeFrom == 3 ? element.url_imgk : this.url
+                    console.log("url ", this.url);
+                    console.log("from ", this.languajeFrom);
+
+
+                    this.wordTo = this.languajeTo == 1 ? element.palabrae : this.wordTo
+                    this.wordTo = this.languajeTo == 2 ? element.palabrai : this.wordTo
+                    this.wordTo = this.languajeTo == 3 ? element.palabrak : this.wordTo
                 } catch (error) {
                     console.error(error);
                 }
+            },
+            switchLen () {
+                let aux = this.languajeFrom
+                this.languajeFrom = this.languajeTo
+                this.languajeTo = aux
             }
         }
     })

@@ -1,0 +1,138 @@
+create table p_espanol(
+	idE int primary key auto_increment,
+	palabrae varchar(50),
+	url_imge varchar(80)
+);
+
+create table p_kiche(
+	idE int primary key auto_increment,
+	palabrak varchar(50),
+	url_imgk varchar(80)
+);
+
+
+create table p_ingles(
+	idi int primary key auto_increment,
+	palabrai varchar(50),
+	url_imgi varchar(80) 
+);
+
+
+CREATE TABLE traduccionE_K_I(
+	idT int PRIMARY key AUTO_INCREMENT,
+	idE int REFERENCES p_espanol,
+	idK int REFERENCES p_kiche,
+	idi int REFERENCES p_ingles
+);
+
+
+
+CREATE TABLE traduccionE_K(
+    idT int PRIMARY key AUTO_INCREMENT,
+    idE int REFERENCES p_espanol,
+    idK int REFERENCES p_kiche
+);
+
+
+INSERT INTO p_espanol values( 1,'Gracias','Gracias.jpg' );
+
+insert into p_kiche values (1,'Maltyox','Gracias.jpg')
+
+insert into p_ingles values (1,'Thanks','Gracias.jpg')
+
+insert into traduccione_k_i values(1,1,1,1);
+
+insert into traduccione_k (1,1,1)
+
+##################################################################################
+
+INSERT INTO p_espanol values( 2,'Hola','Hola.png' );
+
+insert into p_kiche values (2,' La utz awach.','Hola.png');
+
+insert into p_ingles values (2,'Hello','Hola.png');
+
+insert into traduccione_k values (2,2,2);
+
+insert into traduccione_k_i values (2,2,2,2);
+
+###################################
+INSERT INTO p_espanol values( 3,'bueno','bueno.jpg' );
+
+insert into p_kiche values (3,'utz','bueno.jpg');
+
+insert into p_ingles values (3,'Good','bueno.jpg');
+
+insert into traduccione_k values (3,3,3);
+
+insert into traduccione_k_i values (3,3,3,3);
+
+#############################################################
+
+INSERT INTO p_espanol values( 3,'bueno','bueno.jpg' );
+
+insert into p_kiche values (3,'utz','bueno.jpg');
+
+insert into p_ingles values (3,'Good','bueno.jpg');
+
+insert into traduccione_k values (3,3,3);
+
+insert into traduccione_k_i values (3,3,3,3);
+
+####################################################################
+
+INSERT INTO p_espanol values( 4,'buenas noches','noche.jpg' );
+
+insert into p_kiche values (4,' Xok aq’ab’','noche.jpg');
+
+insert into p_ingles values (4,'good evening','noche.jpg');
+
+insert into traduccione_k values (4,4,4);
+
+insert into traduccione_k_i values (4,4,4,4);
+
+
+####################################################################
+
+INSERT INTO p_espanol values( 5,'yo','yo.png' );
+
+insert into p_kiche values (5,'in','yo.png');
+
+insert into p_ingles values (5,'I','yo.png');
+
+insert into traduccione_k values (5,5,5);
+
+insert into traduccione_k_i values (5,5,5,5);
+
+################################################################################################
+
+
+select * from p_ingles i, p_kiche k, traduccione_k_i t WHERE  k.idK = t.idE_K_I and t.idE_K_I = i.idi and k.palabrak = "in" 
+select * from p_espanol e, p_kiche k, traduccione_k t WHERE e.idE = t.idT and t.idT = k.idK and k.palabrak = "in";
+
+
+select * from p_ingles i, p_espanol e, traduccione_k_i t WHERE  e.idE = t.idE and t.idE = i.idi and e.palabrae = "Hola"
+select * from p_kiche k, p_espanol e, traduccione_k t WHERE e.idE = t.idT and t.idT = k.idK and e.palabrae = "Hola"
+
+select * from p_ingles i, p_espanol e, traduccione_k_i t WHERE  e.idE = t.idE and t.idE = i.idi and e.palabrae = "Hola"
+
+select * from p_kiche k, p_ingles i, traduccione_k_i t WHERE i.idi = t.idE_K_I and t.idE_K_I = k.idK and i.palabrai = "I";
+select * from p_espanol e, p_ingles i, traduccione_k_i t WHERE  t.idE_K_I = e.ide and i.idi = t.idE_K_I and i.palabrai = "I";
+
+#####################################################################################
+
+create table grafica(
+    id_grafica int PRIMARY KEY AUTO_INCREMENT,
+    palabras int,
+    frases INT,
+    no_encontrados int
+);
+
+###############################################################
+update grafica set no_encontrados = no_encontrados+1 where id_grafica = 1
+update grafica set palabras = palabras+1 WHERE id_grafica = 1;
+update grafica set frases = frases+1 WHERE id_grafica = 1;
+##################################################################
+
+select * from grafica where id_grafica=1
+

@@ -1,0 +1,32 @@
+.particles-js{
+    width: 100%;
+    max-width: 1500;
+    height: 650px;
+    background-image: url(img/montanas.jpg);
+    background-size: cover;
+    background-position: 0%;
+    background-repeat: no-repeat;
+    position: absolute;
+    color: #FFF;
+    padding: 2%;
+}
+
+main div,h3{
+    width: 50%;
+    margin: 0 auto;
+}
+
+
+a{
+    color: #FFF;
+    text-decoration: none;
+}
+
+.boton{
+    margin: 0 auto;
+    width: 50%;
+}
+
+button{
+    width: 100%;
+}
